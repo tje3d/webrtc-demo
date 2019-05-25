@@ -84,7 +84,9 @@ class GapRTC {
       throw new ExceptionNoConnection();
     }
 
-    const sdp: RTCSessionDescriptionInit = await this.connection.createOffer();
+    const sdp: RTCSessionDescriptionInit = await this.connection.createOffer({
+      iceRestart: true,
+    });
 
     await this.connection.setLocalDescription(sdp);
 
@@ -103,7 +105,9 @@ class GapRTC {
       throw new ExceptionNoConnection();
     }
 
-    const sdp = await this.connection.createAnswer();
+    const sdp = await this.connection.createAnswer({
+      iceRestart: true,
+    });
 
     await this.connection.setLocalDescription(sdp);
 
