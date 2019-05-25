@@ -7,23 +7,23 @@
 			.card-body
 				.row
 					.col-sm-6.text-center
-						.row
-							.col.mb-3(v-if="!localStream")
-								a.btn.btn-block(href="#" @click.prevent="requestLocalStream" :disabled="localStream" :class="{'disabled': localStream, 'btn-info': !localStream, 'btn-success': localStream}") Prepare Camera
-						.row.mb-2
+						.row.mb-3(v-if="!localStream")
 							.col
-								video.rounded.border.w-100(ref="localVideo" autoplay muted)
-						.row(v-if="!connectedToSignalServer && !gapRTC && localStream")
+								a.btn.btn-block(href="#" @click.prevent="requestLocalStream" :disabled="localStream" :class="{'disabled': localStream, 'btn-info': !localStream, 'btn-success': localStream}") Prepare Camera
+						.row.mb-3(v-if="!connectedToSignalServer && !gapRTC && localStream")
 							.col(v-if="connectionLoading") Connecting...
 							.col(v-if="settings.type === 'MQTT' && !connectionLoading")
 								a.btn.btn-block.btn-success(href="#" @click.prevent="createMqttConnection()") Create MQTT Connection
 							.col(v-if="settings.type === 'WebSocket' && !connectionLoading")
 								a.btn.btn-block.btn-success(href="#" @click.prevent="createWebSocket()") Create WebSocket Connection
-						.row(v-if="connectedToSignalServer")
+						.row.mb-3(v-if="connectedToSignalServer")
 							.col(v-if="!gapRTC && localStream && websocket")
 								a.btn.btn-block.btn-success(href="#" @click.prevent="preparePeerConnection(true)") Call
 							.col(v-if="gapRTC && localStream")
 								span.text-muted All Set, Waiting for connection
+						.row.mb-2
+							.col
+								video.rounded.border.w-100(ref="localVideo" autoplay muted)
 					.col-sm-6
 						.row
 								.col.mb-3(v-if="!localStream")
