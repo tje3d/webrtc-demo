@@ -20,8 +20,8 @@ class GapRTC {
 
     this.connection.onicecandidate = (event: RTCPeerConnectionIceEvent) => {
       if (event.candidate === null) {
-        this.params.onCondidateLoadEnd &&
-          this.params.onCondidateLoadEnd(this.iceCandidates);
+        this.params.onCandidateLoadEnd &&
+          this.params.onCandidateLoadEnd(this.iceCandidates);
         return;
       }
 
@@ -142,7 +142,7 @@ class GapRTC {
 }
 
 export interface GapRTCParams {
-  onCondidateLoadEnd?(candidates: Array<RTCIceCandidate>): void;
+  onCandidateLoadEnd?(candidates: Array<RTCIceCandidate>): void;
   onCandidateReceived?(candidate: RTCIceCandidate): void;
   onGotTrack?(event: RTCTrackEvent): void;
   localStream?: MediaStream;
