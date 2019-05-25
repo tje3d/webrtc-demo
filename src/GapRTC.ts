@@ -1,6 +1,13 @@
 class GapRTC {
   config: RTCConfiguration = {
-    iceServers: [{ urls: 'stun:stun.gap.im' }],
+    iceServers: [
+      { urls: 'stun:stun.gap.im' },
+      {
+        urls: 'turn:stun.gap.im',
+        username: 'username1',
+        credential: 'password1',
+      },
+    ],
   };
   connection?: RTCPeerConnection;
   iceCandidates: Array<RTCIceCandidate> = [];
