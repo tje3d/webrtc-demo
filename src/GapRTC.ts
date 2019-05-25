@@ -1,16 +1,18 @@
 class GapRTC {
   config: RTCConfiguration = {
-    iceServers: [{ urls: 'stun:stun.gap.im' }]
+    iceServers: [{ urls: 'stun:stun.gap.im' }],
   };
   connection?: RTCPeerConnection;
-  iceCandidates?: Array<RTCIceCandidate>;
+  iceCandidates: Array<RTCIceCandidate> = [];
   params: GapRTCParams;
 
   constructor(params: GapRTCParams) {
     this.params = params;
+
+    this.createRTCPeerConnection();
   }
 
-  connect() {
+  createRTCPeerConnection() {
     this.iceCandidates = [];
     this.close();
 
@@ -19,7 +21,6 @@ class GapRTC {
     this.connection.onicecandidate = (event: RTCPeerConnectionIceEvent) => {
       if (event.candidate === null) {
         this.params.onCondidateLoadEnd &&
-          this.iceCandidates &&
           this.params.onCondidateLoadEnd(this.iceCandidates);
         return;
       }
@@ -112,7 +113,7 @@ class GapRTC {
    * @returns RTCSessionDescription | null
    */
   async answerToOfferSdp(
-    signal: Signal
+    signal: Signal,
   ): Promise<RTCSessionDescription | null> {
     if (!this.connection) {
       throw new ExceptionNoConnection();
