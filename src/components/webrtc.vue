@@ -26,7 +26,7 @@
 								video.rounded.border.w-100(ref="localVideo" autoplay muted)
 					.col-sm-6
 						.row
-								.col.mb-3(v-if="!localStream")
+								.col.mb-3
 									a.btn.btn-block.disabled.btn-info(href="#") Remote Camera
 						.row
 							.col
@@ -156,18 +156,16 @@ export default Vue.extend({
 
           (this.$refs.remoteVideo as any).srcObject = event.streams[0];
         },
-        onCondidateLoadEnd: (candidates: Array<RTCIceCandidate>) => {
-          console.warn("onCondidateLoadEnd", candidates.length);
+        onCandidateReceived: (ice: RTCIceCandidate) => {
+          console.warn("onCandidateReceived", ice);
 
           const uuid = (this as any).settings.uuid;
 
-          candidates.forEach(ice => {
-            if (!this.websocket) {
-              return;
-            }
+          if (!this.websocket) {
+            return;
+          }
 
-            this.websocket.send(JSON.stringify({ ice, uuid }));
-          });
+          this.websocket.send(JSON.stringify({ ice, uuid }));
         }
       });
 
