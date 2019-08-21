@@ -143,12 +143,68 @@ class GapRTC {
     return this.createAnswer();
   }
 
+  /**
+   * Add a Interactive Connectivity Establishment
+   * @param ice RTCIceCandidate
+   */
   async addIceCandidate(ice: RTCIceCandidate): Promise<void> {
     if (!this.connection) {
       throw new ExceptionNoConnection();
     }
 
     return this.connection.addIceCandidate(ice);
+  }
+
+  //
+  // ─── HELPERS ────────────────────────────────────────────────────────────────────
+  //
+
+  /**
+   * Disable or enable audio
+   * @param void
+   */
+  setAudioStatus(status: boolean): void {
+    this.params
+      .localStream!.getAudioTracks()
+      .forEach(track => (track.enabled = status));
+  }
+
+  /**
+   * Disable or enable video
+   * @param status
+   */
+  setVideoStatus(status: boolean): void {
+    this.params
+      .localStream!.getVideoTracks()
+      .forEach(track => (track.enabled = status));
+  }
+
+  /**
+   * Disable audio
+   */
+  mute() {
+    this.setAudioStatus(false);
+  }
+
+  /**
+   * Enable audio
+   */
+  unmute() {
+    this.setAudioStatus(true);
+  }
+
+  /**
+   * Disable video streaming
+   */
+  disableVideo() {
+    this.setVideoStatus(false);
+  }
+
+  /**
+   * Enable video streaming
+   */
+  enableVideo() {
+    this.setVideoStatus(true);
   }
 }
 
