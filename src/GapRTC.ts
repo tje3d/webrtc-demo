@@ -1,4 +1,32 @@
-class GapRTC {
+//
+// ─── TYPES ──────────────────────────────────────────────────────────────────────
+//
+
+export interface GapRTCParams {
+  onCandidateLoadEnd?(candidates: Array<RTCIceCandidate>): void;
+  onCandidateReceived?(candidate: RTCIceCandidate): void;
+  onGotTrack?(event: RTCTrackEvent): void;
+  localStream?: MediaStream;
+}
+
+export interface Signal {
+  sdp?: RTCSessionDescription;
+  ice?: RTCIceCandidate;
+}
+
+//
+// ─── EXCEPTIONS ─────────────────────────────────────────────────────────────────
+//
+
+export class ExceptionNoConnection extends Error {}
+
+export class EmptySDP extends Error {}
+
+//
+// ─── GAPRTC ─────────────────────────────────────────────────────────────────────
+//
+
+export default class GapRTC {
   config: RTCConfiguration = {
     iceServers: [
       { urls: 'stun:stun.gap.im' },
@@ -207,20 +235,3 @@ class GapRTC {
     this.setVideoStatus(true);
   }
 }
-
-export interface GapRTCParams {
-  onCandidateLoadEnd?(candidates: Array<RTCIceCandidate>): void;
-  onCandidateReceived?(candidate: RTCIceCandidate): void;
-  onGotTrack?(event: RTCTrackEvent): void;
-  localStream?: MediaStream;
-}
-
-export interface Signal {
-  sdp?: RTCSessionDescription;
-  ice?: RTCIceCandidate;
-}
-
-class ExceptionNoConnection extends Error {}
-class EmptySDP extends Error {}
-
-export default GapRTC;
